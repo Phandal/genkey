@@ -10,12 +10,12 @@ comment="${client_name}_${provider_name}"
 pubkeyname="${comment}.pub.txt"
 privkeyname="${comment}.priv.txt"
 
-echo "Creating temporary keyring directory: ${tempdir}"
+echo -e "Creating temporary keyring directory: ${tempdir}"
 mkdir -p $tempdir
 chmod 700 $tempdir
-echo "Done"
+echo -e "Done\n"
 
-echo "Generating pgp key..."
+echo -e "Generating pgp key..."
 gpg --batch --gen-key <<EOF
 %no-protection
 Key-Type: RSA
@@ -26,14 +26,11 @@ Name-Email: support@creativeplanning.com
 Expire-Date: 0
 %commit
 EOF
-echo "Done"
+echo -e "Done\n"
 
-echo "Exporting keys..."
-gpg --armor --export $comment > $pubkeyname
-gpg --armor --export-secret-keys $comment > $privkeyname
-echo "Done"
+echo -e "Exporting keys..."
+gpg --batch --armor --export $comment > $pubkeyname
+gpg --batch --armor --export-secret-keys $comment > $privkeyname
+echo -e "Done\n"
 
-echo "Removing generated keys..."
-gpg --delete-key $comment
-gpg --delete-secret-key $comment
-echo "Done"
+echo -e "Keys were extracted to ${pubkeyname} and ${privkeyname}"
