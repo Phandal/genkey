@@ -1,0 +1,39 @@
+#! /bin/bash
+
+tempdir=./pgptempdir
+export GNUPGHOME=$tempdir
+
+read -p "Enter Client Name: " client_name
+read -p "Enter Provider Name: " provider_name
+
+comment="${client_name}_${provider_name}"
+pubkeyname="${comment}.pub.txt"
+privkeyname="${comment}.priv.txt"
+
+echo "Creating temporary keyring directory: ${tempdir}"
+mkdir -p $tempdir
+chmod 700 $tempdir
+echo "Done"
+
+echo "Generating pgp key..."
+gpg --batch --gen-key <<EOF
+%no-protection
+Key-Type: RSA
+Key-Length: 4096
+Name-Real: CreativePlanning
+Name-Comment: ${comment}
+Name-Email: support@creativeplanning.com
+Expire-Date: 0
+%commit
+EOF
+echo "Done"
+
+echo "Exporting keys..."
+gpg --armor --export $comment > $pubkeyname
+gpg --armor --export-secret-keys $comment > $privkeyname
+echo "Done"
+
+echo "Removing generated keys..."
+gpg --delete-key $comment
+gpg --delete-secret-key $comment
+echo "Done"
