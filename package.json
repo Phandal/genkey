@@ -1,0 +1,21 @@
+{
+  "name": "genkey",
+  "version": "1.0.0",
+  "description": "Creates and exports gpg keys",
+  "scripts": {
+    "build": "tsc",
+    "test": "tsx --test tests/**/*.ts",
+    "start": "node dist/main.js"
+  },
+  "bin": {
+    "cpbc-genkey": "dist/main.js"
+  },
+  "type": "module",
+  "keywords": [],
+  "author": "Bailey Feldewerd <bfeld.111@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "tsx": "^4.20.6"
+  }
+}

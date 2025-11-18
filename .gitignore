@@ -1,3 +1,5 @@
 pgptempdir/
 *.priv.txt
 *.pub.txt
+node_modules
+dist
