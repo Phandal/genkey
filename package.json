@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Creates and exports gpg keys",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --pretty false",
     "test": "tsx --test tests/**/*.ts",
     "start": "node dist/main.js"
   },
@@ -19,6 +19,8 @@
     "tsx": "^4.20.6"
   },
   "dependencies": {
-    "openpgp": "^6.2.2"
+    "@types/ssh2": "^1.15.5",
+    "openpgp": "^6.2.2",
+    "ssh2": "^1.17.0"
   }
 }

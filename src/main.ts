@@ -5,8 +5,11 @@ import * as arg from './arg.js';
 import { registerKeyProvider, createKeyProvider, KeyProvider } from './providers/registry.js';
 import { pgpKeyProvider } from './providers/pgp.js';
 import type { Arg } from './arg.js';
+import { sshInboundKeyProvider, sshOutboundKeyProvider } from './providers/ssh.js';
 
 registerKeyProvider({ kind: 'pgp', provider: pgpKeyProvider });
+registerKeyProvider({ kind: 'ssh-inbound', provider: sshInboundKeyProvider });
+registerKeyProvider({ kind: 'ssh-outbound', provider: sshOutboundKeyProvider });
 
 function usage(err?: unknown): void {
   if (err) {
@@ -16,7 +19,7 @@ function usage(err?: unknown): void {
   console.error('Usage:');
   console.error('  cpbc-genkey <TYPE> <CLIENT> <PROVIDER>');
   console.error('\nOPTIONS')
-  console.error('  TYPE                  pgp or ssh');
+  console.error('  TYPE                  pgp | ssh-inbound | ssh-outbound');
   console.error('  CLIENT                name of the client');
   console.error('  PROVIDER              name of the provider');
   process.exit(1);
