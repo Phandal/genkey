@@ -1,17 +1,13 @@
 export type Arg = {
-  kind: 'pgp' | 'ssh',
+  kind: string;
   client: string;
-  provider: string;
-};
+  carrier: string;
+}
 
 export const MissingArgumentError = new Error('missing arguments');
 
 export function UnexpectedArgumentError(args: string[]): Error {
   return new Error(`unexpected arguments: '${args.join(', ')}'`);
-}
-
-export function InvalidKeyKindError(kind: string): Error {
-  return new Error(`unknown key kind: '${kind}'`);
 }
 
 export function parse(args: string[]): Arg {
@@ -22,26 +18,10 @@ export function parse(args: string[]): Arg {
     throw UnexpectedArgumentError(args.slice(3));
   }
 
-  const [kind, client, provider] = args;
-
-  switch (kind) {
-    case 'pgp':
-      return {
-        kind,
-        client,
-        provider
-      }
-    case 'ssh':
-      return {
-        kind,
-        client,
-        provider,
-      }
-    default:
-      throw InvalidKeyKindError(kind);
+  const [kind, client, carrier] = args;
+  return {
+    kind,
+    client,
+    carrier,
   }
-}
-
-export default {
-  parse,
 }

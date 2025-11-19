@@ -1,7 +1,12 @@
-#! /usr/bin/env node
+#! /usr/bind/env node
 
-import arg from './arg.js';
+import fs from 'node:fs/promises';
+import * as arg from './arg.js';
+import { registerKeyProvider, createKeyProvider, KeyProvider } from './providers/registry.js';
+import { pgpKeyProvider } from './providers/pgp.js';
 import type { Arg } from './arg.js';
+
+registerKeyProvider({ kind: 'pgp', provider: pgpKeyProvider });
 
 function usage(err?: unknown): void {
   if (err) {
@@ -26,7 +31,24 @@ async function main() {
     return;
   }
 
-  console.error('Arg:', args);
+  let keyProvider: KeyProvider;
+  try {
+    keyProvider = createKeyProvider({ kind: args.kind });
+  } catch (err) {
+    usage(err);
+    return;
+  }
+
+  console.error('Creating key pair...');
+  const key = await keyProvider({ client: args.client, carrier: args.carrier });
+  console.error(`Created key pair ${key.name}`);
+
+  console.error('Writing key files...');
+  const publicName = `${key.name}.pub.txt`;
+  const privateName = `${key.name}.priv.txt`;
+  await fs.writeFile(publicName, key.public);
+  await fs.writeFile(privateName, key.private);
+  console.error(`Wrote keys '${publicName}' and '${privateName}'`);
 }
 
 main()

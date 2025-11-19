@@ -17,5 +17,8 @@
   "devDependencies": {
     "@types/node": "^24.10.1",
     "tsx": "^4.20.6"
+  },
+  "dependencies": {
+    "openpgp": "^6.2.2"
   }
 }
