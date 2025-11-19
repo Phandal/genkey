@@ -1,4 +1,4 @@
-#! /usr/bind/env node
+#! /usr/bin/env node
 
 import fs from 'node:fs/promises';
 import * as arg from './arg.js';
